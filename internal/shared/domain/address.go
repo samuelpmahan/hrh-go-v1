@@ -6,6 +6,9 @@ import (
 	"strings"
 )
 
+// zipCodeRegex is precompiled for performance
+var zipCodeRegex = regexp.MustCompile(`^\d{5}(-\d{4})?$`)
+
 // Address represents a physical address with standardized components
 // This is a Value Object - immutable and defined by its attributes
 type Address struct {
@@ -75,8 +78,7 @@ func (a Address) validate() error {
 
 	// Validate zip code format (basic US zip code validation)
 	if a.ZipCode != "" {
-		zipRegex := regexp.MustCompile(`^\d{5}(-\d{4})?$`)
-		if !zipRegex.MatchString(a.ZipCode) {
+		if !zipCodeRegex.MatchString(a.ZipCode) {
 			return errors.New("zip code must be in format 12345 or 12345-6789")
 		}
 	}
