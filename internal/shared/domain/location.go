@@ -62,9 +62,9 @@ func (l Location) validate() error {
 	return nil
 }
 
-// IsEmpty returns true if the location has no meaningful coordinate data
+// IsEmpty returns true if the location has no meaningful data
 func (l Location) IsEmpty() bool {
-	return l.Latitude == 0 && l.Longitude == 0
+	return l.County == "" && l.Region == "" && l.Latitude == 0 && l.Longitude == 0
 }
 
 // DistanceTo calculates the distance in kilometers to another location using Haversine formula
@@ -88,7 +88,8 @@ func (l Location) DistanceTo(other Location) float64 {
 func (l Location) String() string {
 	parts := []string{}
 
-	if !l.IsEmpty() {
+	// Always show coordinates if they're not zero (since 0,0 is a valid location)
+	if l.Latitude != 0 || l.Longitude != 0 {
 		parts = append(parts, fmt.Sprintf("%.6f, %.6f", l.Latitude, l.Longitude))
 	}
 

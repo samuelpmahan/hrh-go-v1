@@ -160,7 +160,7 @@ func TestLocation_IsEmpty(t *testing.T) {
 			expected: true,
 		},
 		{
-			name: "location with coordinates",
+			name: "location with coordinates only",
 			location: Location{
 				Latitude:  40.7128,
 				Longitude: -74.0060,
@@ -168,16 +168,25 @@ func TestLocation_IsEmpty(t *testing.T) {
 			expected: false,
 		},
 		{
-			name: "location with only latitude",
+			name: "location with county",
 			location: Location{
-				Latitude: 40.7128,
+				County: "New York",
 			},
 			expected: false,
 		},
 		{
-			name: "location with only longitude",
+			name: "location with region",
 			location: Location{
+				Region: "NY",
+			},
+			expected: false,
+		},
+		{
+			name: "location with coordinates and county",
+			location: Location{
+				Latitude:  40.7128,
 				Longitude: -74.0060,
+				County:    "New York",
 			},
 			expected: false,
 		},
