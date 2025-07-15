@@ -1,0 +1,104 @@
+run:
+  # Maximum duration for the whole linting process. Default is 5 minutes.
+  timeout: 5m
+  # Exit code when issues are found. Default is 1.
+  issues-exit-code: 1
+  # Run linters on test files too.
+  tests: true
+  # Specifies the Go module download mode.
+  modules-download-mode: mod
+  # Default concurrency for linters. Adjust if your machine struggles.
+  # concurrency: 4
+
+linters-settings:
+  revive:
+    # revive (https://revive.run/docs/rules/) is a highly configurable linter
+    # You can add or remove rules here based on your preferences
+    rules:
+      - name: var-declaration
+        severity: warning
+      - name: unexported-return
+        severity: warning
+      - name: package-comments # Enforce package-level documentation
+        severity: warning
+      - name: exported # Enforce documentation for exported functions/structs/etc.
+        severity: warning
+      - name: line-length # Warns if lines are too long (default 120 chars)
+        severity: warning
+        arguments: [120]
+      - name: unused-parameter # Warns about unused function parameters
+        severity: warning
+      - name: blank-imports # Warns about blank imports (e.g. "github.com/mattn/go-sqlite3")
+        severity: warning
+
+  gofmt:
+    # gofmt is the standard Go formatter. No specific settings usually needed.
+    disable-all-checks: false
+
+  govet:
+    # govet is the standard Go static analyzer.
+    check-shadowing: true # Check for shadowed variables
+
+  staticcheck:
+    # staticcheck provides a lot of general static analysis.
+    # See https://staticcheck.io/docs/checks for all checks.
+    go: "1.22" # Set your Go version here (or current 1.24)
+
+  errcheck:
+    # errcheck checks for unchecked errors
+    check-blank: true # check for `_ = err` too
+    # exclude:
+    #  - "io.Copy" # Example: to ignore unchecked io.Copy errors
+
+  gosec:
+    # gosec is a Go security checker.
+    severity: "low"
+    confidence: "low"
+    # exclude:
+    #   - G307 # Example: to ignore 'Deferring a goroutine inside a loop'
+
+  unparam:
+    # unparam reports unused function parameters.
+    check-exported: false # Set to true to check exported functions too
+
+linters:
+  # IMPORTANT: disable-all is recommended so you explicitly enable what you want.
+  disable-all: true
+  enable:
+    - gofmt
+    - govet
+    - staticcheck
+    - unused
+    - errcheck
+    - gosimple
+    - revive
+    - gosec
+    - prealloc
+    - misspell
+    - bodyclose
+    - unparam
+    - whitespace
+    # Add or remove linters based on your team's preference.
+    # Consider adding:
+    # - cyclop # Cyclomatic complexity
+    # - funlen # Function length
+    # - dogsled # Unassigned variables in a chain
+    # - dupl # Code duplication
+
+issues:
+  # Exclude a list of linters by name.
+  # exclude-use-default: false
+  # exclude-rules:
+  #   - path: _test\.go$
+  #     linters:
+  #       - dupl # Don't check for duplication in test files
+
+  # Maximum number of issues to print.
+  max-issues-per-linter: 0 # 0 means unlimited
+  max-same-issues: 0       # 0 means unlimited
+
+# Output format for the linter results.
+output:
+  format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true
