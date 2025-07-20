@@ -174,7 +174,7 @@ func IsDuplicateKeyError(err error) bool {
 	}
 	// SQLite constraint error messages
 	return contains(err.Error(), "UNIQUE constraint failed") ||
-		contains(err.Error(), "duplicate key")	
+		contains(err.Error(), "duplicate key")
 }
 
 // IsForeignKeyError checks if an error is a foreign key violation

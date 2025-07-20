@@ -8,6 +8,8 @@ import (
 	"regexp"
 	"strings"
 	"time"
+
+	"hrh-backend/internal/shared/domain"
 )
 
 // TeacherStatus represents the possible states of a teacher registration
@@ -37,16 +39,19 @@ func (ts TeacherStatus) IsValid() bool {
 // Teacher represents a teacher aggregate root in the domain
 // This is an Aggregate Root that encapsulates teacher registration, profile management, and wishlist functionality
 type Teacher struct {
-	ID          string         `json:"id" db:"id"`
-	Email       string         `json:"email" db:"email"`
-	FirstName   string         `json:"first_name" db:"first_name"`
-	LastName    string         `json:"last_name" db:"last_name"`
-	SchoolID    string         `json:"school_id" db:"school_id"`
-	GradeLevel  string         `json:"grade_level" db:"grade_level"`
-	WishlistURL string         `json:"wishlist_url" db:"wishlist_url"`
-	Status      TeacherStatus  `json:"status" db:"status"`
-	CreatedAt   time.Time      `json:"created_at" db:"created_at"`
-	UpdatedAt   time.Time      `json:"updated_at" db:"updated_at"`
+	ID          string        `json:"id" db:"id"`
+	Email       string        `json:"email" db:"email"`
+	FirstName   string        `json:"first_name" db:"first_name"`
+	LastName    string        `json:"last_name" db:"last_name"`
+	SchoolID    string        `json:"school_id" db:"school_id"`
+	GradeLevel  string        `json:"grade_level" db:"grade_level"`
+	WishlistURL string        `json:"wishlist_url" db:"wishlist_url"`
+	Status      TeacherStatus `json:"status" db:"status"`
+	CreatedAt   time.Time     `json:"created_at" db:"created_at"`
+	UpdatedAt   time.Time     `json:"updated_at" db:"updated_at"`
+
+	// User reference for authentication capabilities
+	User *domain.User `json:"user,omitempty" db:"-"`
 }
 
 // emailRegex for basic email validation
